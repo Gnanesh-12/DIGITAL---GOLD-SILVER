@@ -5,25 +5,29 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 
 import CustomerDashboard from './pages/CustomerDashboard';
-import DealerDashboard from './pages/DealerDashboard';
-import AdminDashboard from './pages/AdminDashboard';
 import Profile from './pages/Profile';
 import Invoice from './pages/Invoice';
+
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, loading } = useContext(AuthContext);
   if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" />;
   if (allowedRoles && !allowedRoles.includes(user.role)) {
-    if (user.role === 'admin') return <Navigate to="/admin" />;
-    if (user.role === 'dealer') return <Navigate to="/dealer" />;
-    return <Navigate to="/" />;
+    return (
+      <div style={{ textAlign: 'center', marginTop: '100px', color: 'white' }}>
+        <h2>Access Denied</h2>
+        <p>Your account type ({user.role}) is not authorized for this portal.</p>
+        <button className="btn btn-primary" onClick={() => { localStorage.clear(); window.location.href = '/login'; }}>
+          Switch Account
+        </button>
+      </div>
+    );
   }
   return children;
 };
-
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -46,18 +50,7 @@ function App() {
               <Profile />
             </ProtectedRoute>
           } />
-
-          <Route path="/dealer" element={
-            <ProtectedRoute allowedRoles={['dealer']}>
-              <DealerDashboard />
-            </ProtectedRoute>
-          } />
-
-          <Route path="/admin" element={
-            <ProtectedRoute allowedRoles={['admin']}>
-              <AdminDashboard />
-            </ProtectedRoute>
-          } />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
     </AuthProvider>

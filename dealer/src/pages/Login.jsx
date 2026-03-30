@@ -47,7 +47,7 @@ const Login = () => {
         <div className="container" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
             <div className="card" style={{ width: '400px', padding: '40px', border: '1px solid var(--primary)' }}>
                 <h2 style={{ textAlign: 'center', color: 'var(--primary)', marginBottom: '30px', fontSize: '2em' }}>
-                    {step === 'credentials' ? 'Welcome Back' : 'Verify Login'}
+                    {step === 'credentials' ? 'Dealer Portal Login' : 'Verify Login'}
                 </h2>
                 {error && <div style={{ background: 'rgba(255, 77, 77, 0.2)', color: '#ff6b6b', padding: '10px', borderRadius: '8px', marginBottom: '20px', textAlign: 'center' }}>{error}</div>}
 
